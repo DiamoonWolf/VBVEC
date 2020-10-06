@@ -1239,6 +1239,74 @@ End Namespace"
 #End Region
     '======================
 
+' OBFUSCATION
+'https://github.com/call-042PE/
+#Region "俺ム仮"
+    Public Shared Function RandomString(ByVal length As Integer) As String
+        Const chars As String = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz"
+        Return New String(Enumerable.Repeat(chars, length).[Select](Function(s) s(Random.[Next](s.Length))).ToArray())
+    End Function
+
+    Private Sub LinkLabel1_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles LinkLabel1.LinkClicked
+        Process.Start("https://github.com/call-042PE/")
+    End Sub
+
+    Private Sub RichTextBox4_TextChanged(sender As Object, e As EventArgs)
+
+    End Sub
+
+    Private Sub RichTextBox4_TextChanged_1(sender As Object, e As EventArgs) Handles RichTextBox4.TextChanged
+
+        Dim tokens As String = "(regex|dim|object|new|string|public|integer|end|auto|double|int|struct|break|else|long|switch|case|enum|register|typedef|char|extern|return|union|const|float|short|unsigned|continue|for|signed|void|default|goto|sizeof|volatile|do|if|static|while|1|2|3|4|5|6|7|8|9|my)"
+        Dim rex As New Regex(tokens)
+        Dim mc As MatchCollection = rex.Matches(RichTextBox4.Text)
+        Dim StartCursorPosition As Integer = RichTextBox4.SelectionStart
+        For Each m As Match In mc
+            Dim startIndex As Integer = m.Index
+            Dim StopIndex As Integer = m.Length
+            RichTextBox4.[Select](startIndex, StopIndex)
+            RichTextBox4.SelectionColor = Color.Blue
+            RichTextBox4.SelectionStart = StartCursorPosition
+            MsgBox("ee")
+        Next
+    End Sub
+
+    Public Sub ProtectName(ByVal assembly As AssemblyDef, ByVal [mod] As ModuleDef)
+        For Each type As TypeDef In [mod].Types
+            [mod].Name = "ObfuscatedByVapor"
+            type.Name = RandomString(20) & "俺ム仮 ｎｏ ｓｌｅｅｐ俺ム仮"
+            type.[Namespace] = RandomString(20) & "俺ム仮 ｎｏ ｓｌｅｅｐ俺ム仮"
+
+            For Each [property] As PropertyDef In type.Properties
+                [property].Name = RandomString(20) & "俺ム仮 ｎｏ ｓｌｅｅｐ俺ム仮"
+            Next
+
+            For Each fields As FieldDef In type.Fields
+                fields.Name = RandomString(20) & "俺ム仮 ｎｏ ｓｌｅｅｐ俺ム仮"
+            Next
+
+            For Each eventdef As EventDef In type.Events
+                eventdef.Name = RandomString(20) & "俺ム仮 ｎｏ ｓｌｅｅｐ俺ム仮"
+            Next
+
+            For Each method As MethodDef In type.Methods
+                If Not method.IsConstructor Then method.Name = RandomString(20) & "俺ム仮 ｎｏ ｓｌｅｅｐ俺ム仮"
+            Next
+        Next
+
+    End Sub
+
+    Public Sub junkattrib(ByVal [module] As ModuleDefMD)
+        Dim number As Integer = System.Convert.ToInt32(NumericUpDown1.Value)
+
+        For i As Integer = 0 To number - 1
+            Dim junkattribute = New TypeDefUser("俺ム仮 ｎｏ　ｓｌｅｅｐ　俺ム仮" & RandomString(20), "俺ム仮 ｎｏ　ｓｌｅｅｐ　俺ム仮" & RandomString(20), [module].CorLibTypes.Object.TypeDefOrRef)
+            [module].Types.Add(junkattribute)
+        Next
+    End Sub
+
+#End Region
+    '======================
 
 
 
